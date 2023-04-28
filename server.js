@@ -4,9 +4,6 @@ import { rps, rpsls } from "../lib/rpsls.js"
 import minimist from 'minimist';
 import express from 'express';
 
-// Importing express module
-const express = require('express'); 
-
 // Creating an express object
 const app = express(); 
 
@@ -17,6 +14,11 @@ const port = args.port || 5000;
 // Middleware (JSON URLEncoded)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// start server
+app.listen(port, () => {
+  console.log("listening at port 5000")
+})
 
 // Undefined endpoints
 app.get("*", (req, res) => {
@@ -69,11 +71,6 @@ returns {"player":"(rock|paper|scissors|lizard|spock)","opponent"
 :"(rock|paper|scissors|lizard|spock)","result":"(win|lose|tie)"}. */
 app.get('/app/rpsls/play/(rock|paper|scissors|lizard|spock)/', (req, res) => {
   res.status(200).send(rpsls(req.params.arg));
-})
-
-// start server
-app.listen(5000, () => {
-  console.log("listening at port 5000")
 })
 
 
