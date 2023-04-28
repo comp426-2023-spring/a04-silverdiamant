@@ -62,15 +62,15 @@ app.get('/app/rpsls/play/', (req, res) => {
 
 /* /app/rpsls/play/(rock|paper|scissors)/ returns {"player":"(rock|paper|
 scissors)","opponent":"(rock|paper|scissors)","result":"(win|lose|tie)"} */
-app.get('/app/rpsls/play/(rock|paper|scissors)/', (req, res) =>{
-  res.status(200).send(rps(req.params.arg));
+app.get('/app/rpsls/play/:shot', (req, res) =>{
+  res.status(200).send(rps(req.params.shot));
 })
 
 /* /app/rpsls/play/(rock|paper|scissors|lizard|spock)/ 
 returns {"player":"(rock|paper|scissors|lizard|spock)","opponent"
 :"(rock|paper|scissors|lizard|spock)","result":"(win|lose|tie)"}. */
-app.get('/app/rpsls/play/(rock|paper|scissors|lizard|spock)/', (req, res) => {
-  res.status(200).send(rpsls(req.params.arg));
+app.get('/app/rpsls/play/:shot', (req, res) => {
+  res.status(200).send(rpsls(req.params.shot));
 })
 
 
