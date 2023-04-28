@@ -14,56 +14,69 @@ const app = express();
 var args = minimist(process.argv.slice(2));
 const port = args.port || 5000;
 
-// Middleware
+// Middleware (JSON URLEncoded)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Undefined endpoints
+app.get("*", (req, res) => {
+  res.status(404).send("404 NOT FOUND");
+})
 
 // Check endpoint at /app/ that returns 200 OK
 app.get('/app/', (req, res) => {
   res.status(200).send('200 OK');
 })
 
-// Endpoint /app/rps/ that returns {"player":"(rock|paper|scissors)"}
+// /app/rps/ returns {"player":"(rock|paper|scissors)"}
 app.get('/app/rps/', (req, res) => {
   res.status(200).send(rps());
 })
 
-/* Endpoint /app/rpsls/ that returns 
-{"player":"(rock|paper|scissors|lizard|spock)"} */
+// /app/rpsls/ returns {"player":"(rock|paper|scissors|lizard|spock)"}
 app.get('/app/rpsls/', (req, res) =>{
   res.status(200).send(rpsls());
 })
 
-/* Endpoint /app/rps/play/ should accept request bodies in the following 
-forms: shot=(rock|paper|scissors) (URLEncoded) or 
-{"shot":"(rock|paper|scissors)"} (JSON) as data bodies and 
-return {"player":"(rock|paper|scissors)",
-"opponent":"(rock|paper|scissors)","result":"(win|lose|tie)"} */ 
+// /app/rps/play/ accepts URLEncoded, returns result
 app.get('/app/rps/play/', (req, res) => {
-  res.status(200).send(rps(args));
+  res.status(200).send(rps(req.query.shot));
 })
 
-/* Endpoint /app/rpsls/play/ should accept request bodies in the 
-following forms: shot=(rock|paper|scissors) (URLEncoded) or 
-{"shot":"(rock|paper|scissors)"} (JSON) and return 
-{"player":"(rock|paper|scissors)","opponent":"(rock|paper|scissors)",
-"result":"(win|lose|tie)"} */
-app.get('/app/rpsls/play', (req, res) => {
-  res.status(200).send(rpsls(args));
+// /app/rps/play/ accepts JSON, returns result
+app.get('/app/rps/play/', (req, res) => {
+  res.status(200).send(rps(req.body.shot));
 })
 
-/* Endpoint /app/rpsls/play/(rock|paper|scissors)/ should return 
-{"player":"(rock|paper|scissors)","opponent":"(rock|paper|scissors)",
-"result":"(win|lose|tie)"} */
+// /app/rpsls/play/ accepts URLEncoded, returns result
+app.get('/app/rpsls/play/', (req, res) => {
+  res.status(200).send(rpsls(req.query.shot));
+})
+
+// /app/rpsls/play/ accepts JSON, returns result
+app.get('/app/rpsls/play/', (req, res) => {
+  res.status(200).send(rpsls(req.body.shot));
+})
+
+/* /app/rpsls/play/(rock|paper|scissors)/ returns {"player":"(rock|paper|
+scissors)","opponent":"(rock|paper|scissors)","result":"(win|lose|tie)"} */
 app.get('/app/rpsls/play/(rock|paper|scissors)/', (req, res) =>{
-  res.status(200).send(rps(args));
+  res.status(200).send(rps(req.params.arg));
 })
 
-/* Endpoint /app/rpsls/play/(rock|paper|scissors|lizard|spock)/ 
-should return {"player":"(rock|paper|scissors|lizard|spock)","opponent"
+/* /app/rpsls/play/(rock|paper|scissors|lizard|spock)/ 
+returns {"player":"(rock|paper|scissors|lizard|spock)","opponent"
 :"(rock|paper|scissors|lizard|spock)","result":"(win|lose|tie)"}. */
 app.get('/app/rpsls/play/(rock|paper|scissors|lizard|spock)/', (req, res) => {
-  res.status(200).send(rpsls(args));
+  res.status(200).send(rpsls(req.params.arg));
 })
+
+// start server
+app.listen(5000, () => {
+  console.log("listening at port 5000")
+})
+
+
+
 
 
