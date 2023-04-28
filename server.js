@@ -36,7 +36,7 @@ app.get('/app/rps/play/', (req, res) => {
 })
 
 // /app/rps/play/ accepts JSON, returns result
-app.get('/app/rps/play/', (req, res) => {
+app.post('/app/rps/play/', (req, res) => {
   res.status(200).send(rps(req.body.shot));
 })
 
@@ -46,7 +46,7 @@ app.get('/app/rpsls/play/', (req, res) => {
 })
 
 // /app/rpsls/play/ accepts JSON, returns result
-app.get('/app/rpsls/play/', (req, res) => {
+app.post('/app/rpsls/play/', (req, res) => {
   res.status(200).send(rpsls(req.body.shot));
 })
 
