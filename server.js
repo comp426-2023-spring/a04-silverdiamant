@@ -15,16 +15,6 @@ const port = args.port || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// start server
-app.listen(port, () => {
-  console.log("listening at port 5000")
-})
-
-// Undefined endpoints
-app.get("*", (req, res) => {
-  res.status(404).send("404 NOT FOUND");
-})
-
 // Check endpoint at /app/ that returns 200 OK
 app.get('/app/', (req, res) => {
   res.status(200).send('200 OK');
@@ -71,6 +61,16 @@ returns {"player":"(rock|paper|scissors|lizard|spock)","opponent"
 :"(rock|paper|scissors|lizard|spock)","result":"(win|lose|tie)"}. */
 app.get('/app/rpsls/play/:shot', (req, res) => {
   res.status(200).send(rpsls(req.params.shot));
+})
+
+// Undefined endpoints
+app.get("*", (req, res) => {
+  res.status(404).send("404 NOT FOUND");
+})
+
+// start server
+app.listen(port, () => {
+  console.log("listening at port 5000")
 })
 
 
