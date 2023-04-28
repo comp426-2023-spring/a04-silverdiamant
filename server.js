@@ -52,7 +52,7 @@ app.post('/app/rpsls/play/', (req, res) => {
 
 /* /app/rpsls/play/(rock|paper|scissors)/ returns {"player":"(rock|paper|
 scissors)","opponent":"(rock|paper|scissors)","result":"(win|lose|tie)"} */
-app.get('/app/rpsls/play/:shot', (req, res) =>{
+app.get('/app/rps/play/:shot', (req, res) =>{
   res.status(200).send(rps(req.params.shot));
 })
 
